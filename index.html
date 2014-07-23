@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+  <meta charset="utf-8">
+  <title>Game</title>
+  
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  
+  
+</head>
+<body>
+
+	<div id='canvas' class="canvas">
+	<div id="gameScreen" class="canvas-box">
+		<p id="playerNameHolder">Player: Name</p>
+		<p id="playerScoreHolder">Score: 300</p>
+		<p id="bulletSizeHolder">Bullet size: 7</p>
+		<a href="#" class="exit-link" id="exitGame"><img src='http://advancedcraftsmanship.com/communities/7/000/001/037/657//images/2045862.png' /></a>
+	</div>
+		<div id="loginScreen" class="canvas-box">
+			<form class="login-form" id='loginForm'>
+			<h3>Welcome to Rock</h3>
+			<img src=""  alt="Avatar Preview" class="avatar-preview"  id="avatarPreview"/>
+				<br />
+			<select id="playerAvatar">
+				<option value="">Choose an Avatar</option>
+			</select>
+				<br />				
+				
+				<input type="text" name="playerName" id="playerName" placeholder="Enter your nickname..." />
+				<br />
+				
+				<input type="submit" value="Start Playing!" />
+			</form>
+		</div>		
+	</div>
+
+	
+	
+	
+	
+	
+	
+<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="js/game.js"></script>
+<script src="js/rock.js"></script>
+<script src="js/player.js"></script>
+<script src="js/bullet.js"></script>
+<script>
+	$(function(){
+		game.init();
+	});
+</script>
+</body>
+</html>
