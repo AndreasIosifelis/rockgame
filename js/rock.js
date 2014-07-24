@@ -17,19 +17,28 @@ game.rock = function(s, x, y, d){
 	
 	this.rock.
 		attr("src", game.data.rockIcon).
+		attr("data-hit", false).
 		addClass("rock").
 		css({
 			width: s + "px",
 			height: s + "px",
 			left: x + "px",
 			top: y 
-		}).animate({
+		}).
+		animate({
 			top: _this.stopAt()
-		},d, function(){
-			_this.rock.remove();
-		});
+		},{
+			duration:d,
+			step:function(now){
+			var cols = _this.rock.collision($(".player-box")[0]);
 		
-	
-	
-	
+				if(cols.length){
+					game.data.playerScore--;
+					game.setScore(game.data.playerScore);
+				}
+			},
+			complete:function(){
+				$(this).remove();
+			}
+		});	
 };

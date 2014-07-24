@@ -105,7 +105,7 @@ game.start = function () {
 		_this.setScore(_this.data.playerScore);		
 		
 		game.currentPlayer = new game.player(playerName, playerAvatar);
-		game.intervalRockVar = setInterval(game.rockThrower, 2000);
+		game.intervalRockVar = setInterval(game.rockThrower, 1000);
 		//game.intetvalBulletWidthCollition = setInterval(game.bulletWidthCollition,10);
 		game.rockThrower;
 		game.bulletWidthCollition();

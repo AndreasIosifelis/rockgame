@@ -32,7 +32,8 @@ game.player = function(playerName, playerAvatar){
 	this.playerNameHolder.html("Player: " + this.playerName);
 	
 	$("body").on("mousemove", function(e){
-		_this.move(e.pageX, e.pageY);
+		_this.move(e.pageX, e.pageY);	
+		
 	}).on("mousewheel", function(e){
 		
 		var s = game.data.bulletSize,
@@ -55,21 +56,7 @@ game.player = function(playerName, playerAvatar){
 		new game.bullet(s, x, y);
 		
 		var bullets = $(".bullet"),
-		rocks = $(".rock");
-		
-		$.each(bullets, function(b, bullet){
-			var by = $(bullet).position().top;			
-			 $.each(rocks, function(r, rock){
-				var ry = $(rock).position().top;
-				console.log("by:"+by);
-				console.log("ry:"+ry);
-				if(ry == by){
-					console.log("collition");
-				}
-			 });
-			
-		});
-		
+		rocks = $(".rock");		
 		
 	});
 };
