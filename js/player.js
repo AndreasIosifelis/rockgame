@@ -51,12 +51,9 @@ game.player = function(playerName, playerAvatar){
 	this.playerBox.on("click", function(e){
 		var bs = game.data.bulletSize,
 			s = bs,
-			x = e.pageX - s / 2,
-			y = e.pageY - s / 2;
-		new game.bullet(s, x, y);
-		
-		var bullets = $(".bullet"),
-		rocks = $(".rock");		
+			x = e.pageX - s / 2 -1,
+			y = e.pageY - 35;
+		new game.bullet(s, x, y);	
 		
 	});
 };
