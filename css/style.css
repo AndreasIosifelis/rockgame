@@ -28,6 +28,15 @@ select {
 	z-index:100;
 }
 
+#gameScreen a.help-link{
+	position:fixed;
+	top:5px;
+	right:60px;
+	z-index:100;
+	width:50px;
+	height:45px;
+}
+
 #playerNameHolder{
 	position:fixed;
 	top:5px;
@@ -43,6 +52,12 @@ select {
 #bulletSizeHolder{
 	position:fixed;
 	top:45px;
+	left:10px;
+}
+
+#livesHolder{
+	position:fixed;
+	top:65px;
 	left:10px;
 }
 

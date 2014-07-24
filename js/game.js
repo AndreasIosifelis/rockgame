@@ -10,54 +10,39 @@ game.data = {
 		"http://images.uesp.net/9/9f/DB-icon-misc-Heart_Stone.png",
 		"http://www.iconarchive.com/download/i2604/anton-gerasimenko/harry-potter/Philosophers-Stone.ico"
 	],
-	avatars : [{
-			link : "http://cache.hackedfreegames.com/uploads/userpics/nJ0ZSQDDR4ULG.jpg",
-			label : "Freak"
-		}, {
-			link : "http://www.javascriptsource.com/img/alien-spacecraft/alien.gif",
-			label : "Pumpkin"
-		}, {
-			link : "http://upload.wikimedia.org/wikipedia/en/thumb/6/66/Falcon_9_Flight_1_mission_emblem.png/50px-Falcon_9_Flight_1_mission_emblem.png",
-			label : "Bird"
-		}, {
-			link : "http://www.sinelabs.com/static/images/icon_rocket.png",
-			label : "Cake"
-		}, {
-			link : "http://fc04.deviantart.net/fs71/f/2013/046/5/2/free_big_rocket_ship_icon_by_countmoopula-d5uzyzo.gif",
-			label : "Pizza"
-		}
-	],
 	easy:{
-		throwDuration:1500
-		
+		throwDuration:1500,
+		minusScoreDelta:1,
+		plusScoreDelta:10,
+		lives: 5
 	},
 	medium: {
-		throwDuration:1000
+		throwDuration:1000,
+		minusScoreDelta:2,
+		plusScoreDelta:9,
+		lives:4
 	},
 	expert:{
-		throwDuration:500
+		throwDuration:500,
+		minusScoreDelta:3,
+		plusScoreDelta:8,
+		lives:3
 	},
 	playerName: "",
 	playerAvatar: "",
 	playerScore: 0,
-	playerLevel: ""
+	playerLevel: "",
+	playerLives:0
 };
 
 game.setScore = function(score){
+	score = score < 0 ? 0 : score;
 	$("#playerScoreHolder").html("Score: " + score);
 };
 
 game.loadAvatarToSelect = function(){
 	var selectBox = $("#playerAvatar"),
 		imgBox = $("#avatarPreview");
-	
-	$.each(game.data.avatars, function(i, avatar){
-		var option = $("<option />");
-		option.
-			attr("value", avatar.link).
-			html(avatar.label);
-		selectBox.append(option);
-	});
 	
 	selectBox.on("change", function(){
 		imgBox.attr("src", $(this).val());
@@ -83,9 +68,9 @@ game.rockThrower = function(){
 	new game.rock(s, x, y, d);
 };
 
-game.scoreChecker = function(){
-	if(game.data.playerScore < 0){
-		alert("Game Over");
+game.lifeChecker = function(){
+	if(game.data.playerLives === 0){
+		alert("Game Over \n Score " + game.data.playerScore);
 		game.doExit();
 	}
 };
@@ -110,9 +95,11 @@ game.start = function () {
 		_this.switchScreen();
 		_this.setScore(_this.data.playerScore);		
 		game.data.playerLevel = playerLevel;
+		game.data.playerLives = game.data[game.data.playerLevel].lives;
+		$("#livesHolder").html("Lives: " + game.data.playerLives);
 		game.currentPlayer = new game.player(playerName, playerAvatar);
-		game.rockThrowerVar = setInterval(game.rockThrower, game.data[playerLevel].throwDuration);
-		game.scoreCheckerVar = setInterval(game.scoreChecker, 10);
+		game.rockThrowerVar = setInterval(game.rockThrower, game.data[game.data.playerLevel].throwDuration);
+		game.lifeCheckerVar = setInterval(game.lifeChecker, 10);
 			
 	});
 };
@@ -129,7 +116,7 @@ game.doExit = function(){
 		$(".player-box").remove();
 		$(".rock").remove();
 		clearInterval(game.rockThrowerVar);
-		clearInterval(game.scoreCheckerVar);
+		clearInterval(game.lifeCheckerVar);
 };
 
 game.exit = function(){
@@ -139,22 +126,24 @@ game.exit = function(){
 	}
 };
 
+game.showHelp = function(){
+	$("#helpLink").on("click", function(e){
+		e.preventDefault();
+		alert("1.Click to fire \n 2.Mouse wheel to change bullet size");
+	});
+	
+};
+
 
 game.init = function(){
 	var _this = this;
 	this.loadAvatarToSelect();
 	this.start();
+	this.showHelp();
 	$("#exitGame").on("click", function(e){
 		e.preventDefault();
 		_this.exit();
 	});
-	
-	// window.onbeforeunload = function () {
-		// return "Do you really want to close?";
-	// };
-	
-	//clearInterval(game.rockThrower);
-	//clearInterval(game.scoreCheckerVar);
 };
 
 
