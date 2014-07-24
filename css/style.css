@@ -49,6 +49,12 @@ select {
 	left:10px;
 }
 
+#highScoresTable{
+	border-collapse:collapse;
+	width:100%;
+	text-align:left;
+}
+
 #bulletSizeHolder{
 	position:fixed;
 	top:45px;

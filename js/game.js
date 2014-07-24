@@ -70,9 +70,22 @@ game.rockThrower = function(){
 
 game.lifeChecker = function(){
 	if(game.data.playerLives === 0){
-		alert("Game Over \n Score " + game.data.playerScore);
-		game.doExit();
+		clearInterval(game.lifeCheckerVar);
+		var doSave = confirm("Game Over \n Score " + game.data.playerScore + "\n Do yoy want to save your score?");
+		if(doSave){
+			game.save();
+		} else {
+			game.doExit();
+		}	
 	}
+};
+
+game.showHelp = function(){
+	$("#helpLink").on("click", function(e){
+		e.preventDefault();
+		alert("1.Click to fire \n 2.Mouse wheel to change bullet size");
+	});
+	
 };
 
 
@@ -109,6 +122,7 @@ game.doExit = function(){
 		this.data.playerName = "";
 		this.data.playerAvatar = "";
 		this.data.playerScore = 0;
+		this.data.playerLives = 0;
 		$("#playerAvatar").val("");
 		$("#playerName").val("");
 		$("#avatarPreview").attr("src", "");
@@ -117,6 +131,7 @@ game.doExit = function(){
 		$(".rock").remove();
 		clearInterval(game.rockThrowerVar);
 		clearInterval(game.lifeCheckerVar);
+		game.showHighScores();
 };
 
 game.exit = function(){
@@ -126,12 +141,52 @@ game.exit = function(){
 	}
 };
 
-game.showHelp = function(){
-	$("#helpLink").on("click", function(e){
-		e.preventDefault();
-		alert("1.Click to fire \n 2.Mouse wheel to change bullet size");
-	});
+game.save = function(){
 	
+	var avatar = game.data.playerAvatar.replace("http://", "");
+	
+	//game.doExit();
+	$.post("server/server.php", {
+		action: "save",
+		playerName: game.data.playerName,
+		playerScore: game.data.playerScore,
+		playerAvatar: game.data.playerAvatar,
+		playerLevel: game.data.playerLevel
+	}, function(data){
+		console.log("Saved!");
+		game.doExit();		
+	}, "json");
+	
+	
+};
+
+game.showHighScores = function(){
+	$.post("server/server.php", {
+		action:"get"
+	}, function(data){
+		
+		var tbl = $("#highScoresTable");
+		tbl.find("tbody").html("");
+		if(data.players.length){
+			$.each(data.players, function(i, player){
+				
+				var tr = $("<tr />");
+				$.each(player, function(k, v){
+					if(k !== "idc"){
+					var td = $("<td />");
+						if(k == "playerAvatar"){
+							td.html("<img src='" + v + "' />");
+						} else {
+							td.html(v);
+						}
+						tr.append(td);
+					}
+				});
+				tbl.find("tbody").append(tr);
+			});
+		}	
+		
+	}, "json");
 };
 
 
@@ -140,6 +195,7 @@ game.init = function(){
 	this.loadAvatarToSelect();
 	this.start();
 	this.showHelp();
+	this.showHighScores();
 	$("#exitGame").on("click", function(e){
 		e.preventDefault();
 		_this.exit();
