@@ -37,7 +37,7 @@ game.rock = function(s, x, y, d){
 					
 		
 				if(pcols.length && !hit){
-					game.data.playerScore-=10;
+					game.data.playerScore-=1;
 					game.setScore(game.data.playerScore);				
 				}
 				

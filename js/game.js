@@ -28,14 +28,14 @@ game.data = {
 		}
 	],
 	easy:{
-		throwDuration:3000
+		throwDuration:1500
 		
 	},
 	medium: {
-		throwDuration:2000
+		throwDuration:1000
 	},
 	expert:{
-		throwDuration:1000
+		throwDuration:500
 	},
 	playerName: "",
 	playerAvatar: "",
